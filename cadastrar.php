@@ -50,7 +50,7 @@
 
     <nav>
         <ul>
-            <li><a href="index.php">home</a></li>
+            <li><a href="index.php">lista</a></li>
             <li><a href="cadastrar.php">cadastrar</a></li>
         </ul>
     </nav>

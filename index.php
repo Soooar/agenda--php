@@ -1,10 +1,25 @@
 <?php
 // incluir a conexao na pagina e todo seu conteudo
 include 'conexao.php';
+include_once 'funcoes.php';
 
 if (isset($_GET['acao']) && $_GET['acao'] == 'excluir') {
-    echo "EU QUERO DELETAR ALGUEM DO MEU SISTEMA";
-    exit;
+
+   $id = $_GET ['id'];
+
+   if ($id > 0) {
+       // abrir a conexao com o banco
+       $conexaoComBanco = abrirBanco();
+       //preparar um sql de exclusao
+       $sql = "DELETE FROM pessoas WHERE id = $id"; 
+       // executar comando no banco
+       if ($conexaoComBanco->query($sql) === TRUE) {
+        echo "<script>alert ('contato exlcuido')</script>";
+       } else {
+        echo "contato nao exlcuido";
+       }
+   }
+   fecharBanco($conexaoComBanco);
 }
 
 ?>
@@ -15,6 +30,7 @@ if (isset($_GET['acao']) && $_GET['acao'] == 'excluir') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda</title>
+    <link rel="stylesheet" href="index.php">
 </head>
 <body>
     <header> 
@@ -22,7 +38,7 @@ if (isset($_GET['acao']) && $_GET['acao'] == 'excluir') {
 
     <nav>
         <ul>
-            <li><a href="index.php">home</a></li>
+            <li><a href="index.php">lista</a></li>
             <li><a href="cadastrar.php">cadastrar</a></li>
         </ul>
     </nav>
@@ -70,7 +86,7 @@ if (isset($_GET['acao']) && $_GET['acao'] == 'excluir') {
                         <td><?= $registro['endereco'] ?></td>
                         <td><?= $registro['telefone'] ?></td>
                         <td>
-                            <a href="#"><button>Editar</button></a>
+                            <a href="editar.php?acao=editar&id=<?=$registro['id'] ?>"><button>Editar</button></a>
                             <a href="?acao=excluir&id=<?=$registro['id'] ?>"
                              onclick="return confirm('tem certeza que deseja excluir?');"><button>Excluir</button></a>
                         </td>
